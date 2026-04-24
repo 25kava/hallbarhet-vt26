@@ -18,6 +18,7 @@ function parseJSON(text) {
   return JSON.parse(text.replace(/```json|```/g, '').trim())
 }
 
+
 // Analyze a meal photo
 export async function analyzeMeal(imageDataUrl) {
   const text = await call(
