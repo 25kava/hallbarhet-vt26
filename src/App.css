@@ -1,0 +1,607 @@
+* {
+  text-align: center;
+  box-sizing: border-box;
+  font-family: 'Segoe UI', system-ui, sans-serif;
+  margin: 0;
+  padding: 0;
+}
+
+div {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* ── Main app ── */
+.app {
+  min-height: 100vh;
+  justify-content: flex-start;
+  padding-bottom: 100px;
+}
+
+.tab-content {
+  width: 100%;
+  max-width: 480px;
+  margin: 0 auto;
+  padding: 32px 16px 16px;
+  gap: 16px;
+}
+
+.home-title {
+  font-size: 2rem;
+  font-weight: 800;
+  color: #1a1a1a;
+  margin-bottom: 4px;
+}
+
+.tab-subtitle {
+  font-size: 0.85rem;
+  color: #aaa;
+  margin-bottom: 8px;
+}
+
+/* ── Floating island tab bar ── */
+.tab-bar {
+  position: fixed;
+  bottom: 24px;
+  left: 50%;
+  transform: translateX(-50%);
+  flex-direction: row;
+  background: white;
+  border-radius: 32px;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.12), 0 2px 8px rgba(0,0,0,0.06);
+  padding: 6px;
+  gap: 4px;
+  z-index: 50;
+}
+
+.tab-btn {
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  padding: 8px 22px;
+  border-radius: 26px;
+  background: none;
+  border: none;
+  font-size: 0.72rem;
+  color: #bbb;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.tab-btn.active {
+  background: #4caf50;
+  color: white;
+}
+
+/* ── Calorie bar ── */
+.kcal-bar-wrap {
+  width: 280px;
+  gap: 6px;
+}
+
+.kcal-bar-label {
+  font-size: 0.85rem;
+  color: #555;
+}
+
+.kcal-bar-track {
+  width: 100%;
+  height: 14px;
+  background: #eee;
+  border-radius: 99px;
+  border: 2px solid #ddd;
+  overflow: hidden;
+}
+
+.kcal-bar-fill {
+  height: 100%;
+  background: #4caf50;
+  border-radius: 99px;
+  transition: width 0.4s ease;
+}
+
+/* ── Meals section ── */
+.meals-section {
+  width: 100%;
+  gap: 10px;
+  margin-top: 8px;
+}
+
+.meals-title {
+  font-size: 1rem;
+  font-weight: 700;
+  color: #333;
+}
+
+.meal-card {
+  flex-direction: row;
+  width: 100%;
+  max-width: 340px;
+  background: #f9f9f9;
+  border: 1px solid #eee;
+  border-radius: 14px;
+  padding: 10px 14px;
+  gap: 12px;
+  align-items: center;
+}
+
+.meal-thumb {
+  width: 52px;
+  height: 52px;
+  border-radius: 10px;
+  object-fit: cover;
+  flex-shrink: 0;
+}
+
+.meal-info {
+  align-items: flex-start;
+  gap: 3px;
+}
+
+.meal-name {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: #222;
+}
+
+.meal-stats {
+  font-size: 0.78rem;
+  color: #888;
+}
+
+.empty-hint {
+  font-size: 0.85rem;
+  color: #ccc;
+}
+
+.log-btn {
+  align-self: center;
+  margin-top: 4px;
+  padding: 10px 24px;
+  background: #4caf50;
+  color: white;
+  border: none;
+  border-radius: 12px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s;
+  width: fit-content;
+}
+
+.log-btn:hover { background: #43a047; }
+
+/* ── Streaks ── */
+.streaks-row {
+  flex-direction: row;
+  gap: 12px;
+}
+
+.streak-badge {
+  flex-direction: column;
+  background: #f9f9f9;
+  border: 1px solid #eee;
+  border-radius: 14px;
+  padding: 10px 20px;
+  gap: 2px;
+  min-width: 100px;
+}
+
+.streak-icon { font-size: 1.3rem; }
+
+.streak-count {
+  font-size: 1.5rem;
+  font-weight: 800;
+  color: #333;
+}
+
+.streak-label {
+  font-size: 0.72rem;
+  color: #aaa;
+}
+
+/* ── Goals summary (recipes) ── */
+.goals-summary {
+  flex-direction: row;
+  gap: 8px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.goal-chip {
+  background: #f0faf0;
+  border: 1px solid #c8e6c9;
+  border-radius: 20px;
+  padding: 5px 14px;
+  font-size: 0.82rem;
+  color: #388e3c;
+}
+
+/* ── Recipes ── */
+.generate-btn {
+  padding: 12px 28px;
+  background: #f0faf0;
+  border: 2px solid #4caf50;
+  color: #4caf50;
+  border-radius: 12px;
+  font-size: 0.95rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.generate-btn:hover:not(:disabled) { background: #e0f5e0; }
+.generate-btn:disabled { opacity: 0.5; }
+
+.recipe-card {
+  width: 100%;
+  max-width: 340px;
+  background: #f9f9f9;
+  border: 1px solid #eee;
+  border-radius: 14px;
+  padding: 14px 16px;
+  gap: 6px;
+  align-items: flex-start;
+}
+
+.recipe-name {
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: #222;
+}
+
+.recipe-desc {
+  font-size: 0.82rem;
+  color: #777;
+  line-height: 1.45;
+  text-align: left;
+}
+
+.recipe-stats {
+  flex-direction: row;
+  gap: 14px;
+  font-size: 0.8rem;
+  color: #4caf50;
+  margin-top: 4px;
+}
+
+/* ── History chart ── */
+.history-chart {
+  overflow: visible;
+}
+
+.chart-legend {
+  flex-direction: row;
+  gap: 16px;
+  font-size: 0.8rem;
+  color: #888;
+  margin-top: 8px;
+}
+
+.legend-item {
+  flex-direction: row;
+  align-items: center;
+  gap: 5px;
+}
+
+.legend-dot {
+  display: inline-block;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+}
+
+.legend-dot.blue { background: #42a5f5; }
+.legend-dot.green { background: #4caf50; }
+
+.legend-today {
+  display: inline-block;
+  width: 10px;
+  height: 10px;
+  border-radius: 3px;
+  background: #e3f2fd;
+  border: 1px solid #90caf9;
+}
+
+/* ── Meal modal ── */
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.5);
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  align-items: center;
+  z-index: 100;
+}
+
+.modal {
+  background: white;
+  border-radius: 20px 20px 0 0;
+  width: 100%;
+  max-width: 480px;
+  max-height: 90vh;
+  overflow-y: auto;
+  padding: 20px 16px 40px;
+  gap: 0;
+}
+
+.modal-header {
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  margin-bottom: 16px;
+}
+
+.modal-header h2 {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: #222;
+}
+
+.modal-close {
+  background: none;
+  border: none;
+  font-size: 1.1rem;
+  color: #aaa;
+  cursor: pointer;
+}
+
+.modal-body {
+  width: 100%;
+  gap: 14px;
+}
+
+.modal-body.analyzing {
+  align-items: center;
+  padding: 20px 0;
+  color: #888;
+  gap: 16px;
+}
+
+.upload-area {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  border: 2px dashed #ddd;
+  border-radius: 16px;
+  padding: 40px 20px;
+  cursor: pointer;
+  width: 100%;
+  transition: border-color 0.2s;
+}
+
+.upload-area:hover { border-color: #4caf50; }
+.upload-area input { display: none; }
+.upload-icon { font-size: 2rem; }
+
+.image-preview-wrap {
+  position: relative;
+  width: 100%;
+}
+
+.meal-preview-img {
+  width: 100%;
+  max-height: 200px;
+  object-fit: cover;
+  border-radius: 14px;
+}
+
+.meal-preview-img.dimmed { opacity: 0.5; }
+
+.meal-preview-small {
+  width: 100%;
+  max-height: 140px;
+  object-fit: cover;
+  border-radius: 12px;
+}
+
+.change-img-btn {
+  position: absolute;
+  bottom: 10px;
+  right: 10px;
+  background: rgba(0,0,0,0.55);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  padding: 5px 10px;
+  font-size: 0.8rem;
+  cursor: pointer;
+}
+
+.estimate-card {
+  background: #f9f9f9;
+  border: 1px solid #eee;
+  border-radius: 14px;
+  padding: 14px 16px;
+  width: 100%;
+  gap: 10px;
+}
+
+.estimate-card h3 {
+  font-size: 1rem;
+  font-weight: 700;
+  color: #222;
+}
+
+.estimate-stats {
+  flex-direction: row;
+  justify-content: center;
+  gap: 20px;
+}
+
+.stat {
+  align-items: center;
+  gap: 2px;
+}
+
+.stat-value {
+  font-size: 1.5rem;
+  font-weight: 800;
+  color: #4caf50;
+}
+
+.stat-label {
+  font-size: 0.75rem;
+  color: #aaa;
+}
+
+.stat-divider {
+  width: 1px;
+  height: 36px;
+  background: #eee;
+}
+
+.estimate-note {
+  font-size: 0.78rem;
+  color: #aaa;
+  line-height: 1.4;
+}
+
+.correction-section {
+  width: 100%;
+  gap: 8px;
+  align-items: flex-start;
+}
+
+.correction-section label {
+  font-size: 0.82rem;
+  color: #888;
+}
+
+.correction-row {
+  flex-direction: row;
+  width: 100%;
+  gap: 8px;
+}
+
+.correction-row input {
+  flex: 1;
+  padding: 9px 12px;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  font-size: 0.85rem;
+  outline: none;
+}
+
+.correction-row input:focus { border-color: #4caf50; }
+
+.correction-row button {
+  padding: 8px 14px;
+  background: #f0faf0;
+  border: 1px solid #4caf50;
+  color: #4caf50;
+  border-radius: 10px;
+  font-size: 0.85rem;
+  cursor: pointer;
+}
+
+.correction-row button:disabled { opacity: 0.4; }
+
+/* ── Shared ── */
+.spinner {
+  width: 28px;
+  height: 28px;
+  border: 3px solid #eee;
+  border-top-color: #4caf50;
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin { to { transform: rotate(360deg); } }
+
+.error-text {
+  font-size: 0.85rem;
+  color: #e57373;
+}
+
+/* ── Onboarding ── */
+.onboarding {
+  min-height: 100vh;
+  justify-content: center;
+  gap: 12px;
+  padding: 32px 16px;
+}
+
+.onboarding-title {
+  font-size: 2.2rem;
+  font-weight: 700;
+  color: #1a1a1a;
+}
+
+.onboarding-subtitle {
+  font-size: 1.1rem;
+  color: #444;
+}
+
+.onboarding-hint {
+  font-size: 0.82rem;
+  color: #bbb;
+  max-width: 300px;
+  margin-top: 8px;
+}
+
+.onboarding-input {
+  padding: 12px 16px;
+  font-size: 1rem;
+  border: 2px solid #ddd;
+  border-radius: 12px;
+  width: 280px;
+  outline: none;
+  transition: border-color 0.2s;
+}
+
+.onboarding-input:focus { border-color: #4caf50; }
+
+.onboarding-input-small {
+  padding: 10px 12px;
+  font-size: 1rem;
+  border: 2px solid #ddd;
+  border-radius: 12px;
+  width: 130px;
+  outline: none;
+  transition: border-color 0.2s;
+}
+
+.onboarding-input-small:focus { border-color: #4caf50; }
+
+.onboarding-select {
+  padding: 10px 12px;
+  font-size: 1rem;
+  border: 2px solid #ddd;
+  border-radius: 12px;
+  background: white;
+  outline: none;
+}
+
+.goal-row {
+  flex-direction: row;
+  align-items: center;
+  gap: 8px;
+}
+
+.goal-unit {
+  font-size: 0.9rem;
+  color: #555;
+  white-space: nowrap;
+}
+
+.onboarding-button {
+  margin-top: 4px;
+  padding: 13px 32px;
+  font-size: 1rem;
+  font-weight: 600;
+  background: #4caf50;
+  color: white;
+  border: none;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: background 0.2s, opacity 0.2s;
+}
+
+.onboarding-button:hover:not(:disabled) { background: #43a047; }
+.onboarding-button:disabled { opacity: 0.4; cursor: not-allowed; }
