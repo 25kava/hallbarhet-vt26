@@ -1,17 +1,18 @@
-const API_KEY = import.meta.env.VITE_GROQ_API_KEY
+const API_URL = 'https://25kava.azurewebsites.net/api/25kava/responses'
+const MODEL = 'gpt-5.4-nano'
 
-async function call(model, messages, maxTokens = 500) {
-  const res = await fetch('https://api.groq.com/openai/v1/chat/completions', {
+async function call(input, maxTokens = 500) {
+  const res = await fetch(API_URL, {
     method: 'POST',
     headers: {
-      Authorization: `Bearer ${API_KEY}`,
       'Content-Type': 'application/json',
+      'Accept-Encoding': 'identity',
     },
-    body: JSON.stringify({ model, messages, max_tokens: maxTokens, temperature: 0.7 }),
+    body: JSON.stringify({ model: MODEL, input, max_output_tokens: maxTokens }),
   })
-  if (!res.ok) throw new Error(`Groq error: ${res.status}`)
+  if (!res.ok) throw new Error(`API error: ${res.status}`)
   const data = await res.json()
-  return data.choices[0].message.content.trim()
+  return data.output[0].content[0].text.trim()
 }
 
 function parseJSON(text) {
@@ -22,12 +23,11 @@ function parseJSON(text) {
 // Analyze a meal photo
 export async function analyzeMeal(imageDataUrl) {
   const text = await call(
-    'meta-llama/llama-4-scout-17b-16e-instruct',
     [{
       role: 'user',
       content: [
-        { type: 'image_url', image_url: { url: imageDataUrl } },
-        { type: 'text', text: 'Analyze this meal. Return ONLY JSON: {"name": "meal name", "kcal": 500, "co2_kg": 1.2, "note": "brief explanation"}' },
+        { type: 'input_image', image_url: imageDataUrl },
+        { type: 'input_text', text: 'Analyze this meal. Return ONLY JSON: {"name": "meal name", "kcal": 500, "co2_kg": 1.2, "note": "brief explanation"}' },
       ],
     }],
     300
@@ -38,7 +38,6 @@ export async function analyzeMeal(imageDataUrl) {
 // Correct an estimate based on user feedback
 export async function correctMeal(estimate, correction) {
   const text = await call(
-    'llama-3.3-70b-versatile',
     [{
       role: 'user',
       content: `Meal estimate: ${JSON.stringify(estimate)}\nUser says: "${correction}"\nAdjust and return ONLY JSON: {"name": "...", "kcal": 0, "co2_kg": 0.0, "note": "..."}`,
@@ -57,7 +56,6 @@ export async function generateRecipes(goals, todayMeals, totalKcal, totalCO2) {
   const mealHint = hour < 10 ? 'breakfast' : hour < 14 ? 'lunch' : hour < 17 ? 'afternoon snack' : 'dinner'
 
   const text = await call(
-    'llama-3.3-70b-versatile',
     [{
       role: 'user',
       content: `It is ${hour}:00, so suggest 3 ${mealHint} recipes that fit the user's remaining budget for today.
